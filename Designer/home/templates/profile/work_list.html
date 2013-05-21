@@ -1,0 +1,16 @@
+{% for scene in sceneList %}
+<li class="span3" style="height:270px;">
+	<div class="thumbnail">
+		<a href="/scene/{{ scene.id }}" target="_blank">
+			{% if scene.img_url%}
+			<img data-src="holder.js/260x200" src="{{ scene.img_url }}" alt="Scene Picture" class="img-rounded" style="width:260px;height:200px;"/>
+			{%else%}
+			<img data-src="holder.js/260x200" src="/site_media/img/no-preview.jpg" class="img-rounded" style="width:260px;height:200px;"/>
+			{% endif %}
+		</a>
+	</div>
+	<a href="/scene/{{ scene.id }}" target="_blank" title="{{scene.title|safe}}">
+		<h3>{{ scene.htitle}}</h3>
+	</a>
+</li>
+{% endfor %}

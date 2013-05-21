@@ -1,0 +1,220 @@
+{% extends "gallery/base.html" %}
+{% load comments %}
+{% block title %}Gallery{% endblock %}
+{% block head %}
+<!-- <link rel="stylesheet" href="/site_media/css/bootstrap-responsive.min.css"></link>
+ --><link rel="stylesheet" href="/site_media/css/scene.css"></link>
+ <script type="text/javascript" src="/site_media/js/utils.js"></script>
+
+ <script type="text/javascript" src="/site_media/js/tiny_mce/tiny_mce.js"></script>
+ <script type="text/javascript">
+		tinyMCE.init({
+		 mode:"textareas",
+		 theme:"advanced",
+		 plugins:"emotions",
+		 theme_advanced_buttons1:"bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justrifyright,justrifyfull,|,fontselect,fontsizeselect,|,cut,copy,paste,|,undo,redo,|,link,unlink,|,forecolor,backcolor,|,image,emotions",
+		 theme_advanced_buttons2:"",
+		 theme_advanced_toolbar_location:"top",
+		 theme_advanced_toolbar_align:"left",
+		 language:"en",
+		 height:"100px",
+		});
+</script>
+
+<script type="text/javascript">
+{% if scene.content3 %}
+var editData = {{ scene.content3|safe }};
+{% endif %}
+
+{% if scene.content2 %}
+var twoEditData = {{ scene.content2|safe }};
+{% endif %}
+
+</script>
+
+
+{% endblock %}	
+{% block content %}
+<div> 
+	<script type="text/javascript">
+		$(function(){
+			$.get(
+				'/getAllModels/',
+				{},
+				function(data){
+					$("#toolbox").append(data)
+				}
+			);
+		})
+	</script>
+	<div id="scene-title">
+		{% ifequal type 'edit' %}
+			<form class="form-horizontal" id="scene-data-form" method="post" action="/scene/save/" enctype="multipart/form-data">
+				<fieldset>
+					<legend>Information About the Scene</legend>
+					<div class="control-group">
+						<label class="control-label" for="inputSceneTitle">Title</label>
+						<div class="controls">
+							<input class="scene-input" type="text" id="inputSceneTitle" placeholder="input title of the scene..." name="title" autocomplete="off" value="{{scene.title}}"/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputSceneDescription">Description</label>
+						<div class="controls">
+							<textarea class="scene-input"  id="inputSceneDescription" rows="3" placeholder="input description of the scene..." name="description" autocomplete="off">{{scene.description}}</textarea>
+						</div>
+					</div>
+					
+					<input type="hidden" id="sceneImageUrlData" name="imageUrl"/>
+						
+					<input type="hidden" id="sceneId" name="sceneId" value="{{scene.id}}"/>
+					<input type="hidden" id="sceneContentData" name="contentthree" value=""/>
+					<input type="hidden" id="towContentData"  name="contenttwo" value=""/>
+					<input type="hidden" id="isDraft" name="draft" value="false"/>
+				</fieldset>
+			</form>
+		{% endifequal %}
+
+		{% ifequal type 'view' %}
+			<div id="scene-data-div">
+				{% ifequal scene.img_url '' %}				
+				<div class="span3">
+					<img src="/site_media/img/no-preview.jpg" onerror="" class="img-rounded"/>
+				</div>
+				{% else %}
+				<div class="span3">
+					<img src={{ scene.img_url }} onerror="this.src='/site_media/img/1.jpg'" class="img-rounded"/>
+				</div>
+				{% endifequal %}
+				<div class="span8">
+					<h3>{{ scene.title }}</h3>
+					Author:<a href="/user/profile/{{scene.author.username}}">{{ scene.author.username }}</a>
+					<table >
+						<tr>
+							<td>Description:</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td rowspan="2" style="font-size:16px;">{{ scene.description|safe }}</td>
+						</tr>
+					</table>
+				</div>
+				
+			</div>
+		{% endifequal %}
+	</div>
+
+	<div id="scene-main">	
+		<ul class="nav nav-tabs">
+			<li  {% ifequal type 'edit' %}class="active"{% endifequal %}>
+		  		<a href="javascript:;" id="two-tab">2D Edit</a>
+		  	</li>
+		 	<li {% ifequal type 'view' %}class="active"{% endifequal %}>
+				<a href="javascript:;" id="three-tab">3D Display</a>
+		  	</li>
+		  	{% ifequal type 'edit' %}
+		  	<li class="tab-btn-ctn">
+		  		<div class="btn-ctn">
+		  			<div class="btn-group">
+						<button id="save-btn1" class="btn btn-primary">Save</button>
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+					 	</button>
+					  	<ul class="dropdown-menu">
+							<li>
+								<a id="save-btn2" href="javascript:;">Save as scene</a>
+							</li>
+							<li>
+								<a id="save-draft-btn" href="javascript:;">Save as draft</a>
+							</li>
+						</ul>
+					</div>
+		  		</div>
+		  	</li>
+		  	{% endifequal %}
+		  	{% ifequal type 'view' %}
+		  	<li class="tab-btn-ctn">
+		  		<div class="btn-ctn">
+		  			<div  class="btn-group">
+		  				<a href="/scene/edit/{{ scene.id }}" class="btn btn-primary">Edit</a>
+		  				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+		  					<span class="caret"></span>
+		  				</a>
+		  				<ul class="dropdown-menu">
+		  					<li>
+		  						<a href="/scene/edit/{{ scene.id }}">Edit</a>
+		  					</li>
+		  					<li>
+		  						<a href="/scene/delete/{{ scene.id }}">Delete</a>
+		  					</li>
+		  				</ul>
+		  			</div>
+		  			
+		  		</div>
+		  	</li>
+		  	{% endifequal %}
+		</ul>
+		<div id="three-scene"  {% ifequal type 'edit' %}style="display:none;"{% endifequal %}>
+			{% include "scene/3D.html"%}
+		</div>
+		<div id="two-scene"  {% ifequal type 'view' %}style="display:none;"{% endifequal %}>
+			{% include "scene/2D.html"%}
+		</div>
+		
+		
+		
+		{% ifequal type 'view' %}
+			<script type="text/javascript" src="/site_media/js/comment_init.js"></script>
+			<!-- JiaThis Button BEGIN -->
+			<div class="jiathis_style" style="float:right">
+				<span class="jiathis_txt">Share to:</span>
+				<a class="jiathis_button_qzone"></a>
+				<a class="jiathis_button_tsina"></a>
+				<a class="jiathis_button_tqq"></a>
+				<a class="jiathis_button_renren"></a>
+				<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">More</a>
+				<a class="jiathis_counter_style"></a>
+			</div>
+			<div style="clear:both"></div>
+			<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1363692970301781" charset="utf-8"></script>
+			<!-- JiaThis Button END -->
+			
+			{% get_comment_form for scene.scenedata scene.id as form %}  
+			<form action='{%comment_form_target%}' method='post'>
+			    {% csrf_token %}
+			    {{form.object_pk}}
+			    {{form.content_type}}
+			    {{form.timestamp}}
+			    {{form.security_hash}}
+			    <input name="name" id="id_name" value="{{user.username}}" type='hidden'></p>
+			    <input name="email" id="id_email", value="{{user.email}}" type='hidden'></p>
+			    <p><label for="id_comment">Comment:</label></p>
+			    <p><textarea id="id_comment" rows="10" cols="40" name="comment"></textarea></p>
+			    <p style="display:none;"><label for="id_honeypot">asxa</label> <input type="text" name="honeypot" id="id_honeypot"></p>
+			    <p><input name="post" value="Send" type="submit" /></p>
+			    <input type='hidden' name='next' value='/scene/{{scene.id}}'/>		    
+			
+			<!-- UJian Button BEGIN -->
+			<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js?type=slide&fade=1"></script>
+			<a href="http://www.ujian.cc" style="border:0;"><img src="http://img.ujian.cc/pixel.png" alt="recommend" style="border:0;padding:0;margin:0;" /></a>
+			<!-- UJian Button END -->
+			<div id="uyan_frame"></div>
+			<script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=0" async=""></script>
+			
+			{% get_comment_list for scene.scenedata scene.id as comment_list %}
+			<div id="comment_list" style="overflow-y:auto;height:500px">
+				{% for comment in comment_list %}
+				<div class="comment" style="font-size:14px;">
+					<span style="color:green;">User:</span><b><a href="/user/profile/{{comment.user.username}}">{{comment.user.username}}</a></b>&nbsp;&nbsp;&nbsp;
+					<span style="color:green;">Time:{{comment.submit_date|date:"Y-m-d H:i"}}</span>&nbsp;&nbsp;&nbsp;
+					<!--IP Address:{{comment.ip_address}}</p>-->
+					<div class="comment_detail" style="font-size:18px; margin-top:10px;">{{comment.comment}}</div>
+				</div>
+				{% endfor %}
+			</div>
+		{% endifequal %}
+	</div>
+	
+	<script type="text/javascript" src="/site_media/js/scene.js"></script>
+</div>
+{% endblock%}

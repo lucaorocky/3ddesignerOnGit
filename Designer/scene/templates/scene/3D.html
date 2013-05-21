@@ -1,0 +1,43 @@
+<!--<script type="text/javascript" src="js/3dlib/Three.js"></script>-->
+<script type="text/javascript" src="/site_media/js/cookies.js"></script>
+<script type="text/javascript" src="/site_media/js/3dlib/three/three.r57.min.js"></script>
+<script type="text/javascript" src="/site_media/js/3dlib/three/TrackballControls.js"></script>
+<script type="text/javascript" src="/site_media/js/3dlib/three/FirstPersonControls.js"></script>
+<script type="text/javascript" src="/site_media/js/3dlib/three/ColladaLoader.js"></script>
+<script type="text/javascript" src="/site_media/js/3dlib/three/three-r57-ext.js"></script>
+<script type="text/javascript" src="/site_media/js/3dlib/3d-app.js"></script>
+<script type="text/javascript" src="/site_media/js/3dlib/local.js"></script>
+<script type="text/javascript" src="/site_media/js/3dlib/three/FloorGeometry.js"></script>
+
+<script type="text/javascript" src="/site_media/js/3dlib/data-transformer.js"></script>
+<script type="text/javascript" src="/site_media/js/bootstrap.min.js"></script>
+
+<!--<script type="text/javascript" src="js/data-json/scene-example-20130404.js"></script>-->
+<!-- <script type="text/javascript" src="/site_media/js/data-json/2d-data-example-20130414.js"></script> -->
+
+<link rel="stylesheet" type="text/css" href="/site_media/css/3d.css"/>
+
+
+<div id="v-area">
+	<div class="alert" id="track-alert" style="display:none">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong>Hint:</strong> Press left mouse to rotate camera. Press right mouse to drag scene. Scroll mouse to zoom scene.
+	</div>
+	<div class="alert" id="firstperson-alert" style="display:none">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong>Hint:</strong> Press W/A/S/D to move. Move mouse to look around.
+	</div>
+	<div id="outer-v-container" >
+		<div id="loading-box" class="modal">
+			<div class="modal-body">
+				<center><p>loading scene……</p></center>
+			</div>
+		</div>
+		<div id="control-box" class="btn-group">
+			<button class="btn" id="ov-btn">Overview</button>
+			<button class="btn" id="fp-btn">FirstPerson</button>
+		</div>
+		<div id="v-container"></div>
+	</div>
+	
+</div>

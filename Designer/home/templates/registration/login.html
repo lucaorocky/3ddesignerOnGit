@@ -1,0 +1,36 @@
+{% extends "registration/base.html" %}
+{% block head %}
+<link rel="stylesheet" href="/site_media/css/login.css"></link>
+{% endblock %}
+{% block title %}Login{% endblock%}
+{% block content %}
+{% if forms.has_errors %}
+	<ul class="errorlost"><li>Wrong username or password!Please enter again.</li></ul>
+{% endif %}
+<div class="hero-unit">
+  <div id="logo"></div>
+  <div id="login">
+	<form method="post" action=".">{% csrf_token %}
+		<table class="noframe">
+			<tr>
+				<td align="left"><b>Username:</b></td>
+			</tr>
+			<tr>
+				<td>{{form.username}}</td>
+			</tr>
+			<tr>
+				<td align="left"><b>Password:</b><a href="/accounts/password/reset/">Forget password</a></td>	
+			</tr>
+			<tr>
+				<td>{{form.password}}</td>
+				<td><input type="hidden" name="next" value="{{next}}"></td>
+			</tr>
+			<tr><br></tr><tr>
+			<tr>
+				<td clospan="2" align="center"><input type="submit" value="Login" id="login_button" class='btn btn-info .btn-mini'></td>
+			</tr>
+		</table>
+	</form>
+  </div>
+</div>
+{% endblock %}

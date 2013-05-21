@@ -1,0 +1,46 @@
+{% extends "profile/base.html"%}
+{% block title %}User profile{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/site_media/css/user_profile.css" type="text/css">
+{% endblock %}
+{% block content %}
+	<div  class="hero-unit">
+		<div class='purpleband'> 
+			<div class='left'><img alt="Purpleband-left" src="/site_media/img/purpleband-left1.png" /></div> 
+			<div class='center'><h2>{{username}}'s messages</h2><span></span></div>
+			<div class='right'><img alt="Purpleband-right" src="/site_media/img/purpleband-right1.png" /></div> 
+			<div class='clear'></div> 
+		</div>
+		
+		<table class="msglist table table-bordered table-striped table-hover">
+			{% include "msg_list.html" %}
+		</table>
+		<div class="more"><a href="/user/{{username}}/msg">More...</a></div>
+	</div>
+
+	<div id="userWorks" class="hero-unit">
+		<div class='purpleband'> 
+			<div class='left'><img alt="Purpleband-left" src="/site_media/img/purpleband-left1.png" /></div> 
+			<div class='center'>
+				<h2>
+					{{username}}'s works
+					<a class="btn btn-primary" style="float:right;margin:7px;" href="/scene/new/">Create New Scene</a>
+				</h2>
+			</div>
+			<div class='right'><img alt="Purpleband-right" src="/site_media/img/purpleband-right1.png" /></div> 
+			<div class='clear'></div> 
+		</div>
+		<div>
+			<ul class="thumbnails" id="scene-ul">
+				{% include "profile/work_list.html" %}
+			</ul>
+			<div>
+				<a href="javascript:;" id="get-more-scene" class="btn btn-large" style="margin:0 auto;display:block" data-page="1">More......</a>
+			</div>
+		</div>
+		<script type="text/javascript" src="/site_media/js/home/home.js"></script>
+		<!--  <div class="more"><a href="/user/{{username}}/work">More...</a></div>-->
+	</div>
+	
+	<div style="clear:both"></div>
+{% endblock %}

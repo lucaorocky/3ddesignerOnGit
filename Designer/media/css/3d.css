@@ -1,0 +1,69 @@
+#v-area {
+	width:940px;
+	float: left;
+}
+
+#v-cus-navbar{
+	margin-bottom: 0;
+}
+
+#v-cus-navbar-inner{
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+#v-container{
+	width:940px; 
+	height:600px; 
+	background-color:#eee;
+	display: block;
+	border : 1px solid #c09853;
+	margin-bottom: 10px;
+}
+
+#vc-pannel {
+	border : 1px solid #000;
+	float : right;
+	width: 100px;
+	height: 400px;
+	overflow: hidden;
+	display: block;
+}
+
+.vc-btn {
+	width:50px;
+	height: 50px;
+	display: block;
+}
+
+a{
+	cursor: pointer;
+}
+
+.nav-btn {
+	margin : 5px;
+}
+
+#outer-v-container {
+	position : relative;
+}
+
+#loading-box {
+	top : 200px;
+	left : 450px;
+	position : absolute;
+	display: none;
+}
+
+#scene-main {
+	margin : 10px auto;
+	width: 940px;
+	clear:both;
+}
+
+#control-box {
+	top : 20px;
+	left : 20px;
+	position: absolute;
+	display: block;
+}
